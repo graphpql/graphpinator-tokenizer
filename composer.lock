@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1102e93813b77dd1deb4053f04330e5c",
+    "content-hash": "42acef75a2ba29c115076434b1e1e5b5",
     "packages": [
         {
             "name": "infinityloop-dev/graphpinator-common",
@@ -653,20 +653,20 @@
         },
         {
             "name": "infinityloop-dev/coding-standard",
-            "version": "v0.1",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infinityloop-dev/coding-standard.git",
-                "reference": "a91e70faeedea5a0b7a4feecb4c0ad8a886e5f17"
+                "reference": "dfaa8232283a63f1733601769c968dbb753dcf01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infinityloop-dev/coding-standard/zipball/a91e70faeedea5a0b7a4feecb4c0ad8a886e5f17",
-                "reference": "a91e70faeedea5a0b7a4feecb4c0ad8a886e5f17",
+                "url": "https://api.github.com/repos/infinityloop-dev/coding-standard/zipball/dfaa8232283a63f1733601769c968dbb753dcf01",
+                "reference": "dfaa8232283a63f1733601769c968dbb753dcf01",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4",
+                "php": ">=7.4",
                 "slevomat/coding-standard": "~6.3.8",
                 "squizlabs/php_codesniffer": "~3.5.3"
             },
@@ -686,9 +686,9 @@
             "description": "Inifnityloop PHPCS coding standard",
             "support": {
                 "issues": "https://github.com/infinityloop-dev/coding-standard/issues",
-                "source": "https://github.com/infinityloop-dev/coding-standard/tree/v0.1"
+                "source": "https://github.com/infinityloop-dev/coding-standard/tree/v0.1.1"
             },
-            "time": "2020-10-09T20:45:57+00:00"
+            "time": "2020-11-20T13:52:10+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
