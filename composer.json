@@ -1,6 +1,6 @@
 {
   "name": "infinityloop-dev/graphpinator-tokenizer",
-  "description": "Tokenizer subproject for GraPHPinator: GraphQL server implementation for PHP 7.4+.",
+  "description": "Tokenizer subproject for GraPHPinator: GraphQL server implementation for PHP.",
   "homepage": "https://www.infinityloop.dev/",
   "type": "library",
   "license": ["MIT"],
