@@ -8,7 +8,9 @@ abstract class TokenizerError extends \Graphpinator\Exception\GraphpinatorBase
 {
     final public function __construct(\Graphpinator\Common\Location $location)
     {
-        parent::__construct($location);
+        parent::__construct();
+
+        $this->location = $location;
     }
 
     final protected function isOutputable() : bool
