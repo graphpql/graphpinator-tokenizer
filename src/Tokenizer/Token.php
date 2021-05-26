@@ -8,15 +8,8 @@ final class Token
 {
     use \Nette\SmartObject;
 
-    private string $type;
-    private ?string $value;
-    private \Graphpinator\Common\Location $location;
-
-    public function __construct(string $type, \Graphpinator\Common\Location $location, ?string $value = null)
+    public function __construct(private string $type, private \Graphpinator\Common\Location $location, private ?string $value = null)
     {
-        $this->type = $type;
-        $this->value = $value;
-        $this->location = $location;
     }
 
     public function getType() : string
