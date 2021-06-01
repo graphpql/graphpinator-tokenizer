@@ -199,12 +199,11 @@ final class Tokenizer implements \Iterator
             TokenType::SCALAR => new \Graphpinator\Tokenizer\Token(TokenType::SCALAR, $location),
             TokenType::IMPLEMENTS => new \Graphpinator\Tokenizer\Token(TokenType::IMPLEMENTS, $location),
             TokenType::REPEATABLE => new \Graphpinator\Tokenizer\Token(TokenType::REPEATABLE, $location),
-            default => match (\strtolower($value)) { // case insensitive
-                TokenType::NULL => new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location),
-                TokenType::TRUE => new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location),
-                TokenType::FALSE => new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location),
-                default => new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value),
-            },
+            // literals
+            TokenType::NULL => new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location),
+            TokenType::TRUE => new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location),
+            TokenType::FALSE => new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location),
+            default => new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value),
         };
     }
 

@@ -276,7 +276,7 @@ final class TokenizerTest extends \PHPUnit\Framework\TestCase
             [
                 'NULL',
                 [
-                    new \Graphpinator\Tokenizer\Token(TokenType::NULL, new \Graphpinator\Common\Location(1, 1)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 1), 'NULL'),
                 ],
             ],
             [
@@ -306,7 +306,7 @@ final class TokenizerTest extends \PHPUnit\Framework\TestCase
             [
                 'FALSE true',
                 [
-                    new \Graphpinator\Tokenizer\Token(TokenType::FALSE, new \Graphpinator\Common\Location(1, 1)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 1), 'FALSE'),
                     new \Graphpinator\Tokenizer\Token(TokenType::TRUE, new \Graphpinator\Common\Location(1, 7)),
                 ],
             ],
