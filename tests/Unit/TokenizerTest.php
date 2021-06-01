@@ -458,6 +458,21 @@ final class TokenizerTest extends \PHPUnit\Framework\TestCase
                     new \Graphpinator\Tokenizer\Token(TokenType::EQUAL, new \Graphpinator\Common\Location(1, 1)),
                 ],
             ],
+            [
+                'schema SCHEMA type interface union input enum scalar implements repeatable',
+                [
+                    new \Graphpinator\Tokenizer\Token(TokenType::SCHEMA, new \Graphpinator\Common\Location(1, 1)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 8), 'SCHEMA'),
+                    new \Graphpinator\Tokenizer\Token(TokenType::TYPE, new \Graphpinator\Common\Location(1, 15)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::INTERFACE, new \Graphpinator\Common\Location(1, 20)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::UNION, new \Graphpinator\Common\Location(1, 30)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::INPUT, new \Graphpinator\Common\Location(1, 36)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::ENUM, new \Graphpinator\Common\Location(1, 42)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::SCALAR, new \Graphpinator\Common\Location(1, 47)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::IMPLEMENTS, new \Graphpinator\Common\Location(1, 54)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::REPEATABLE, new \Graphpinator\Common\Location(1, 65)),
+                ],
+            ],
         ];
     }
 
@@ -549,6 +564,40 @@ final class TokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $source = new \Graphpinator\Source\StringSource($source);
         $tokenizer = new \Graphpinator\Tokenizer\Tokenizer($source);
+        $index = 0;
+
+        foreach ($tokenizer as $token) {
+            self::assertSame($tokens[$index]->getType(), $token->getType());
+            self::assertSame($tokens[$index]->getValue(), $token->getValue());
+            self::assertSame($tokens[$index]->getLocation()->getLine(), $token->getLocation()->getLine());
+            self::assertSame($tokens[$index]->getLocation()->getColumn(), $token->getLocation()->getColumn());
+            ++$index;
+        }
+    }
+
+    public function noKeywordsDataProvider() : array
+    {
+        return [
+            [
+                '... type fragment',
+                [
+                    new \Graphpinator\Tokenizer\Token(TokenType::ELLIP, new \Graphpinator\Common\Location(1, 1)),
+                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 5), 'type'),
+                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 10), 'fragment'),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider noKeywordsDataProvider
+     * @param string $source
+     * @param array $tokens
+     */
+    public function testNoKeywords(string $source, array $tokens) : void
+    {
+        $source = new \Graphpinator\Source\StringSource($source);
+        $tokenizer = new \Graphpinator\Tokenizer\Tokenizer($source, true, false);
         $index = 0;
 
         foreach ($tokenizer as $token) {
