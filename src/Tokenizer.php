@@ -357,9 +357,9 @@ final class Tokenizer implements \Iterator
     private function eatEscapeChar() : string
     {
         $escapedChar = $this->source->getChar();
+        $this->source->next();
 
         if ($escapedChar === 'u') {
-            $this->source->next();
             $hexDec = $this->eatChars(static function (string $char) : bool {
                 return \ctype_xdigit($char);
             }, 4);
@@ -370,8 +370,6 @@ final class Tokenizer implements \Iterator
 
             return \mb_chr(\hexdec($hexDec), 'utf8');
         }
-
-        $this->source->next();
 
         if (!\array_key_exists($escapedChar, self::ESCAPE_MAP)) {
             throw new \Graphpinator\Tokenizer\Exception\StringLiteralInvalidEscape($this->source->getLocation());
