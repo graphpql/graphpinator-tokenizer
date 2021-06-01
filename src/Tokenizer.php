@@ -400,7 +400,7 @@ final class Tokenizer implements \Iterator
             throw new \Graphpinator\Tokenizer\Exception\NumericLiteralMalformed($this->source->getLocation());
         }
 
-        if (!$leadingZeros && $digitCount > 1 && \strpos($digits, '0') === 0) {
+        if (!$leadingZeros && $digitCount > 1 && \str_starts_with($digits, '0')) {
             throw new \Graphpinator\Tokenizer\Exception\NumericLiteralLeadingZero($this->source->getLocation());
         }
 
