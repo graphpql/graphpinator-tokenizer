@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Graphpinator\Exception\Tokenizer;
+namespace Graphpinator\Tokenizer\Exception;
 
 abstract class TokenizerError extends \Graphpinator\Exception\GraphpinatorBase
 {

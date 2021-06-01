@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace Graphpinator\Exception\Tokenizer;
+namespace Graphpinator\Tokenizer\Exception;
 
-final class StringLiteralNewLine extends \Graphpinator\Exception\Tokenizer\TokenizerError
+final class StringLiteralNewLine extends \Graphpinator\Tokenizer\Exception\TokenizerError
 {
     public const MESSAGE = 'Simple string literal cannot span across multiple lines. Use block literal or escape sequence.';
 }
