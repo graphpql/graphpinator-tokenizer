@@ -177,45 +177,19 @@ final class Tokenizer implements \Iterator
     {
         $value = $this->eatName();
 
-        switch ($value) {
-            case OperationType::QUERY:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::QUERY, $location);
-
-                return;
-            case OperationType::MUTATION:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::MUTATION, $location);
-
-                return;
-            case OperationType::SUBSCRIPTION:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::SUBSCRIPTION, $location);
-
-                return;
-        }
-
-        switch (\strtolower($value)) {
-            case TokenType::NULL:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location);
-
-                return;
-            case TokenType::TRUE:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location);
-
-                return;
-            case TokenType::FALSE:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location);
-
-                return;
-            case TokenType::FRAGMENT:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, $location);
-
-                return;
-            case TokenType::ON:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::ON, $location);
-
-                return;
-            default:
-                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value);
-        }
+        $this->token = match ($value) { // case sensitive
+            OperationType::QUERY => new \Graphpinator\Tokenizer\Token(TokenType::QUERY, $location),
+            OperationType::MUTATION => new \Graphpinator\Tokenizer\Token(TokenType::MUTATION, $location),
+            OperationType::SUBSCRIPTION => new \Graphpinator\Tokenizer\Token(TokenType::SUBSCRIPTION, $location),
+            default => match (\strtolower($value)) { // case insensitive
+                TokenType::NULL => new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location),
+                TokenType::TRUE => new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location),
+                TokenType::FALSE => new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location),
+                TokenType::FRAGMENT => new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, $location),
+                TokenType::ON => new \Graphpinator\Tokenizer\Token(TokenType::ON, $location),
+                default => new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value),
+            },
+        };
     }
 
     private function createNumericToken(\Graphpinator\Common\Location $location) : void
