@@ -314,7 +314,7 @@ final class TokenizerTest extends \PHPUnit\Framework\TestCase
                 '... type fragment',
                 [
                     new \Graphpinator\Tokenizer\Token(TokenType::ELLIP, new \Graphpinator\Common\Location(1, 1)),
-                    new \Graphpinator\Tokenizer\Token(TokenType::NAME, new \Graphpinator\Common\Location(1, 5), 'type'),
+                    new \Graphpinator\Tokenizer\Token(TokenType::TYPE, new \Graphpinator\Common\Location(1, 5)),
                     new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, new \Graphpinator\Common\Location(1, 10)),
                 ],
             ],

@@ -22,7 +22,11 @@ final class Tokenizer implements \Iterator
     private ?Token $token = null;
     private ?int $tokenStartIndex = null;
 
-    public function __construct(private \Graphpinator\Source\Source $source, private bool $skipNotRelevant = true)
+    public function __construct(
+        private \Graphpinator\Source\Source $source,
+        private bool $skipNotRelevant = true, // skip whitespace, comments and other optional tokens
+        private bool $createKeywords = true, // create specialized keyword tokens or return every text sequence as NAME token
+    )
     {
     }
 
@@ -177,16 +181,28 @@ final class Tokenizer implements \Iterator
     {
         $value = $this->eatName();
 
-        $this->token = match ($value) { // case sensitive
-            OperationType::QUERY => new \Graphpinator\Tokenizer\Token(TokenType::QUERY, $location),
-            OperationType::MUTATION => new \Graphpinator\Tokenizer\Token(TokenType::MUTATION, $location),
-            OperationType::SUBSCRIPTION => new \Graphpinator\Tokenizer\Token(TokenType::SUBSCRIPTION, $location),
+        $this->token = match ($this->createKeywords ? $value : false) { // fallback to NAME if createKeywords === false
+            // executable document
+            TokenType::QUERY => new \Graphpinator\Tokenizer\Token(TokenType::QUERY, $location),
+            TokenType::MUTATION => new \Graphpinator\Tokenizer\Token(TokenType::MUTATION, $location),
+            TokenType::SUBSCRIPTION => new \Graphpinator\Tokenizer\Token(TokenType::SUBSCRIPTION, $location),
+            TokenType::FRAGMENT => new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, $location),
+            // both executable and typesystem
+            TokenType::ON => new \Graphpinator\Tokenizer\Token(TokenType::ON, $location),
+            // typesystem document
+            TokenType::SCHEMA => new \Graphpinator\Tokenizer\Token(TokenType::SCHEMA, $location),
+            TokenType::TYPE => new \Graphpinator\Tokenizer\Token(TokenType::TYPE, $location),
+            TokenType::INTERFACE => new \Graphpinator\Tokenizer\Token(TokenType::INTERFACE, $location),
+            TokenType::UNION => new \Graphpinator\Tokenizer\Token(TokenType::UNION, $location),
+            TokenType::INPUT => new \Graphpinator\Tokenizer\Token(TokenType::INPUT, $location),
+            TokenType::ENUM => new \Graphpinator\Tokenizer\Token(TokenType::ENUM, $location),
+            TokenType::SCALAR => new \Graphpinator\Tokenizer\Token(TokenType::SCALAR, $location),
+            TokenType::IMPLEMENTS => new \Graphpinator\Tokenizer\Token(TokenType::IMPLEMENTS, $location),
+            TokenType::REPEATABLE => new \Graphpinator\Tokenizer\Token(TokenType::REPEATABLE, $location),
             default => match (\strtolower($value)) { // case insensitive
                 TokenType::NULL => new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location),
                 TokenType::TRUE => new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location),
                 TokenType::FALSE => new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location),
-                TokenType::FRAGMENT => new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, $location),
-                TokenType::ON => new \Graphpinator\Tokenizer\Token(TokenType::ON, $location),
                 default => new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value),
             },
         };
