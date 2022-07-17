@@ -45,5 +45,11 @@
     "psr-4": {
       "Graphpinator\\Tokenizer\\Tests\\": "tests/"
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "infection/extension-installer": true
+    }
   }
 }
