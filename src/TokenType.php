@@ -20,9 +20,9 @@ enum TokenType : string
     case NULL = 'null';
     case TRUE = 'true';
     case FALSE = 'false';
-    case QUERY = OperationType::QUERY;
-    case MUTATION = OperationType::MUTATION;
-    case SUBSCRIPTION = OperationType::SUBSCRIPTION;
+    case QUERY = 'query';
+    case MUTATION = 'mutation';
+    case SUBSCRIPTION = 'subscription';
     case FRAGMENT = 'fragment';
     case ON = 'on'; // type condition
     // type system keywords
