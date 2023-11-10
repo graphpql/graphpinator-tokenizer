@@ -154,7 +154,7 @@ final class Tokenizer implements \Iterator
             case TokenType::SQU_C->value:
             case TokenType::COLON->value:
             case TokenType::EQUAL->value:
-                $this->token = new \Graphpinator\Tokenizer\Token(Tokentype::from($this->source->getChar()), $location);
+                $this->token = new \Graphpinator\Tokenizer\Token(TokenType::from($this->source->getChar()), $location);
                 $this->source->next();
 
                 return;
