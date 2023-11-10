@@ -10,7 +10,7 @@ abstract class TokenizerError extends \Graphpinator\Exception\GraphpinatorBase
     {
         parent::__construct();
 
-        $this->location = $location;
+        $this->setLocation($location);
     }
 
     final public function isOutputable() : bool

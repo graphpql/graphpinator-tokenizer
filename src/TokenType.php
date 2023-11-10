@@ -4,56 +4,58 @@ declare(strict_types = 1);
 
 namespace Graphpinator\Tokenizer;
 
-final class TokenType
+enum TokenType : string
 {
-    use \Nette\StaticClass;
-
-    public const NEWLINE = 'newline';
-    public const COMMENT = '#';
-    public const COMMA = ',';
+    case NEWLINE = 'newline';
+    case COMMENT = '#';
+    case COMMA = ',';
     // lexical
-    public const NAME = 'name';
-    public const VARIABLE = '$';
-    public const DIRECTIVE = '@';
-    public const INT = 'int literal';
-    public const FLOAT = 'float literal';
-    public const STRING = 'string literal';
+    case NAME = 'name';
+    case VARIABLE = '$';
+    case DIRECTIVE = '@';
+    case INT = 'int literal';
+    case FLOAT = 'float literal';
+    case STRING = 'string literal';
     // keywords
-    public const NULL = 'null';
-    public const TRUE = 'true';
-    public const FALSE = 'false';
-    public const QUERY = OperationType::QUERY;
-    public const MUTATION = OperationType::MUTATION;
-    public const SUBSCRIPTION = OperationType::SUBSCRIPTION;
-    public const FRAGMENT = 'fragment';
-    public const ON = 'on'; // type condition
+    case NULL = 'null';
+    case TRUE = 'true';
+    case FALSE = 'false';
+    case QUERY = OperationType::QUERY;
+    case MUTATION = OperationType::MUTATION;
+    case SUBSCRIPTION = OperationType::SUBSCRIPTION;
+    case FRAGMENT = 'fragment';
+    case ON = 'on'; // type condition
     // type system keywords
-    public const SCHEMA = 'schema';
-    public const TYPE = 'type';
-    public const INTERFACE = 'interface';
-    public const UNION = 'union';
-    public const INPUT = 'input';
-    public const ENUM = 'enum';
-    public const SCALAR = 'scalar';
-    public const IMPLEMENTS = 'implements';
-    public const REPEATABLE = 'repeatable';
+    case SCHEMA = 'schema';
+    case TYPE = 'type';
+    case INTERFACE = 'interface';
+    case UNION = 'union';
+    case INPUT = 'input';
+    case ENUM = 'enum';
+    case SCALAR = 'scalar';
+    case IMPLEMENTS = 'implements';
+    case REPEATABLE = 'repeatable';
     // punctators
-    public const AMP = '&'; // implements
-    public const PIPE = '|'; // union
-    public const EXCL = '!'; // not null
-    public const PAR_O = '('; // argument, variable, directive
-    public const PAR_C = ')';
-    public const CUR_O = '{'; // selection set
-    public const CUR_C = '}';
-    public const SQU_O = '['; // list
-    public const SQU_C = ']';
-    public const ELLIP = '...'; // fragment spread
-    public const COLON = ':'; // argument, variable, directive, field alias
-    public const EQUAL = '='; // default value
+    case AMP = '&'; // implements
+    case PIPE = '|'; // union
+    case EXCL = '!'; // not null
+    case PAR_O = '('; // argument, variable, directive
+    case PAR_C = ')';
+    case CUR_O = '{'; // selection set
+    case CUR_C = '}';
+    case SQU_O = '['; // list
+    case SQU_C = ']';
+    case ELLIP = '...'; // fragment spread
+    case COLON = ':'; // argument, variable, directive, field alias
+    case EQUAL = '='; // default value
 
-    public const IGNORABLE = [
-        self::COMMA => true,
-        self::COMMENT => true,
-        self::NEWLINE => true,
-    ];
+    public function isIgnorable() : bool
+    {
+        return match ($this) {
+            self::COMMA,
+            self::COMMENT,
+            self::NEWLINE => true,
+            default => false,
+        };
+    }
 }

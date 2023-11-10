@@ -6,8 +6,6 @@ namespace Graphpinator\Tokenizer;
 
 final class Tokenizer implements \Iterator
 {
-    use \Nette\SmartObject;
-
     private const ESCAPE_MAP = [
         '"' => '"',
         '\\' => '\\',
@@ -51,7 +49,7 @@ final class Tokenizer implements \Iterator
             return false;
         }
 
-        if ($this->skipNotRelevant && \array_key_exists($this->token->getType(), TokenType::IGNORABLE)) {
+        if ($this->skipNotRelevant && $this->token->getType()->isIgnorable()) {
             $this->loadToken();
 
             return $this->valid();
@@ -119,7 +117,7 @@ final class Tokenizer implements \Iterator
                 $this->source->next();
 
                 return;
-            case TokenType::VARIABLE:
+            case TokenType::VARIABLE->value:
                 $this->source->next();
 
                 if (\ctype_alpha($this->source->getChar())) {
@@ -129,7 +127,7 @@ final class Tokenizer implements \Iterator
                 }
 
                 throw new \Graphpinator\Tokenizer\Exception\MissingVariableName($location);
-            case TokenType::DIRECTIVE:
+            case TokenType::DIRECTIVE->value:
                 $this->source->next();
 
                 if (\ctype_alpha($this->source->getChar())) {
@@ -139,24 +137,24 @@ final class Tokenizer implements \Iterator
                 }
 
                 throw new \Graphpinator\Tokenizer\Exception\MissingDirectiveName($location);
-            case TokenType::COMMENT:
+            case TokenType::COMMENT->value:
                 $this->source->next();
                 $this->token = new \Graphpinator\Tokenizer\Token(TokenType::COMMENT, $location, $this->eatComment());
 
                 return;
-            case TokenType::COMMA:
-            case TokenType::AMP:
-            case TokenType::PIPE:
-            case TokenType::EXCL:
-            case TokenType::PAR_O:
-            case TokenType::PAR_C:
-            case TokenType::CUR_O:
-            case TokenType::CUR_C:
-            case TokenType::SQU_O:
-            case TokenType::SQU_C:
-            case TokenType::COLON:
-            case TokenType::EQUAL:
-                $this->token = new \Graphpinator\Tokenizer\Token($this->source->getChar(), $location);
+            case TokenType::COMMA->value:
+            case TokenType::AMP->value:
+            case TokenType::PIPE->value:
+            case TokenType::EXCL->value:
+            case TokenType::PAR_O->value:
+            case TokenType::PAR_C->value:
+            case TokenType::CUR_O->value:
+            case TokenType::CUR_C->value:
+            case TokenType::SQU_O->value:
+            case TokenType::SQU_C->value:
+            case TokenType::COLON->value:
+            case TokenType::EQUAL->value:
+                $this->token = new \Graphpinator\Tokenizer\Token(Tokentype::from($this->source->getChar()), $location);
                 $this->source->next();
 
                 return;
@@ -181,30 +179,17 @@ final class Tokenizer implements \Iterator
     {
         $value = $this->eatName();
 
-        $this->token = match ($this->createKeywords ? $value : false) { // fallback to NAME if createKeywords === false
-            // executable document
-            TokenType::QUERY => new \Graphpinator\Tokenizer\Token(TokenType::QUERY, $location),
-            TokenType::MUTATION => new \Graphpinator\Tokenizer\Token(TokenType::MUTATION, $location),
-            TokenType::SUBSCRIPTION => new \Graphpinator\Tokenizer\Token(TokenType::SUBSCRIPTION, $location),
-            TokenType::FRAGMENT => new \Graphpinator\Tokenizer\Token(TokenType::FRAGMENT, $location),
-            // both executable and typesystem
-            TokenType::ON => new \Graphpinator\Tokenizer\Token(TokenType::ON, $location),
-            // typesystem document
-            TokenType::SCHEMA => new \Graphpinator\Tokenizer\Token(TokenType::SCHEMA, $location),
-            TokenType::TYPE => new \Graphpinator\Tokenizer\Token(TokenType::TYPE, $location),
-            TokenType::INTERFACE => new \Graphpinator\Tokenizer\Token(TokenType::INTERFACE, $location),
-            TokenType::UNION => new \Graphpinator\Tokenizer\Token(TokenType::UNION, $location),
-            TokenType::INPUT => new \Graphpinator\Tokenizer\Token(TokenType::INPUT, $location),
-            TokenType::ENUM => new \Graphpinator\Tokenizer\Token(TokenType::ENUM, $location),
-            TokenType::SCALAR => new \Graphpinator\Tokenizer\Token(TokenType::SCALAR, $location),
-            TokenType::IMPLEMENTS => new \Graphpinator\Tokenizer\Token(TokenType::IMPLEMENTS, $location),
-            TokenType::REPEATABLE => new \Graphpinator\Tokenizer\Token(TokenType::REPEATABLE, $location),
-            // literals
-            TokenType::NULL => new \Graphpinator\Tokenizer\Token(TokenType::NULL, $location),
-            TokenType::TRUE => new \Graphpinator\Tokenizer\Token(TokenType::TRUE, $location),
-            TokenType::FALSE => new \Graphpinator\Tokenizer\Token(TokenType::FALSE, $location),
-            default => new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value),
-        };
+        if ($this->createKeywords) {
+            $type = TokenType::tryFrom($value);
+
+            if ($type instanceof TokenType) {
+                $this->token = new \Graphpinator\Tokenizer\Token($type, $location);
+
+                return;
+            }
+        }
+
+        $this->token = new \Graphpinator\Tokenizer\Token(TokenType::NAME, $location, $value);
     }
 
     private function createNumericToken(\Graphpinator\Common\Location $location) : void

@@ -6,17 +6,15 @@ namespace Graphpinator\Tokenizer;
 
 final class Token
 {
-    use \Nette\SmartObject;
-
     public function __construct(
-        private string $type,
+        private TokenType $type,
         private \Graphpinator\Common\Location $location,
         private ?string $value = null,
     )
     {
     }
 
-    public function getType() : string
+    public function getType() : TokenType
     {
         return $this->type;
     }
