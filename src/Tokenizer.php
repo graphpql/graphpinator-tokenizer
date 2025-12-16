@@ -246,7 +246,7 @@ final class Tokenizer implements \Iterator
         }
     }
 
-    private function skipWhiteSpace() : void
+    private function skipWhitespace() : void
     {
         $this->eatChars(static function (string $char) : bool {
             return $char !== \PHP_EOL && \ctype_space($char);
@@ -392,7 +392,7 @@ final class Tokenizer implements \Iterator
                 throw new StringLiteralInvalidEscape($this->source->getLocation());
             }
 
-            return \mb_chr((int) \hexdec($hexDec), 'utf8');
+            return \mb_chr((int) \hexdec($hexDec), 'utf8'); // @phpstan-ignore theCodingMachineSafe.function
         }
 
         if (!\array_key_exists($escapedChar, self::ESCAPE_MAP)) {

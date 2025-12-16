@@ -13,14 +13,21 @@
   ],
   "require": {
     "php": ">=8.1",
+    "ext-mbstring": "*",
+    "ext-ctype": "*",
     "infinityloop-dev/graphpinator-common": "^2.0",
     "infinityloop-dev/graphpinator-source": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.4",
     "infection/infection": "^0.29",
-    "phpstan/phpstan": "^1.10",
-    "webthinx/codestyle": "^1.1"
+    "phpstan/phpstan": "^2.0",
+    "thecodingmachine/phpstan-safe-rule": "^1.4",
+    "phpstan/phpstan-strict-rules": "^2.0",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "webthinx/codestyle": "^1.1",
+    "phpstan/extension-installer": "^1.4",
+    "shipmonk/composer-dependency-analyser": "^1.8"
   },
   "scripts": {
     "phpunit": "phpunit tests",
@@ -32,7 +39,8 @@
     "phpstan-next": "phpstan analyze --level max src",
     "phpstan-max": "phpstan analyze --level max src",
     "codestyle": "phpcs --extensions=php src tests",
-    "codestyle-fix": "phpcbf --extensions=php src tests"
+    "codestyle-fix": "phpcbf --extensions=php src tests",
+    "dependencies": "composer-dependency-analyser"
   },
   "autoload": {
     "psr-4": {
@@ -47,7 +55,8 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "phpstan/extension-installer": true
     }
   }
 }
