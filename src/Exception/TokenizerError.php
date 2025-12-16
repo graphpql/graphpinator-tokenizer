@@ -4,9 +4,14 @@ declare(strict_types = 1);
 
 namespace Graphpinator\Tokenizer\Exception;
 
-abstract class TokenizerError extends \Graphpinator\Exception\GraphpinatorBase
+use Graphpinator\Common\Location;
+use Graphpinator\Exception\GraphpinatorBase;
+
+abstract class TokenizerError extends GraphpinatorBase
 {
-    final public function __construct(\Graphpinator\Common\Location $location)
+    final public function __construct(
+        Location $location,
+    )
     {
         parent::__construct();
 

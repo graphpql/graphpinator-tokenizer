@@ -4,11 +4,13 @@ declare(strict_types = 1);
 
 namespace Graphpinator\Tokenizer;
 
+use Graphpinator\Common\Location;
+
 final class Token
 {
     public function __construct(
         private TokenType $type,
-        private \Graphpinator\Common\Location $location,
+        private Location $location,
         private ?string $value = null,
     )
     {
@@ -24,7 +26,7 @@ final class Token
         return $this->value;
     }
 
-    public function getLocation() : \Graphpinator\Common\Location
+    public function getLocation() : Location
     {
         return $this->location;
     }
