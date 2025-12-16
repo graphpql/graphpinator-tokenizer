@@ -18,6 +18,7 @@ abstract class TokenizerError extends GraphpinatorBase
         $this->setLocation($location);
     }
 
+    #[\Override]
     final public function isOutputable() : bool
     {
         return true;

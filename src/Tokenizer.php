@@ -45,23 +45,27 @@ final class Tokenizer implements \Iterator
     {
     }
 
+    #[\Override]
     public function current() : Token
     {
         return $this->token
             ?? throw new \LogicException('Iterator not initialized');
     }
 
+    #[\Override]
     public function key() : int
     {
         return $this->tokenStartIndex
             ?? throw new \LogicException('Iterator not initialized');
     }
 
+    #[\Override]
     public function next() : void
     {
         $this->loadToken();
     }
 
+    #[\Override]
     public function valid() : bool
     {
         if (!$this->token instanceof Token || !\is_int($this->tokenStartIndex)) {
@@ -77,6 +81,7 @@ final class Tokenizer implements \Iterator
         return true;
     }
 
+    #[\Override]
     public function rewind() : void
     {
         $this->source->rewind();
